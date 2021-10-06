@@ -14,7 +14,7 @@ class Card:
 #Function which is called after interacting with "deal_button". It makes deck, player hand,
 #his position at the table and shows current efficient stacks
 
-def show_hand():
+def new_hand():
     table.delete("all")
     deck = []
     for suit in suits:
@@ -25,11 +25,10 @@ def show_hand():
 
     hand = [deck.pop() for n in range(2)]
     positions = ["Btn", "BB", "SB"]
-
-    player_info = table.create_text(150, 150,
-                                    text=f'{hand[0]} {hand[1]} pos: {random.choice(positions)} ES:{random.randint(1, 25)}',
-                                    fill='white',
-                                    font=('helvetica', 15, 'bold'))
+    position = random.choice(positions)
+    efficient_stacks = random.randint(1,25)
+    table.create_text(200, 100, text=f"{hand[0]} {hand[1]}", fill="white", font=("helvetica", 15, "bold"))
+    table.create_text(200, 125, text=f"pos: {position}   ES:{efficient_stacks}", fill="white", font=("helvetica", 15, "bold"))
 
 suits = ('♡', '♢', '♠', '♣')
 ranks = ("2", "3", "4", "5", "6", "7", "8", "9", "T", "J", "Q", "K", "A")
@@ -42,13 +41,25 @@ window = Tk()
 window.title("Hand Dealer")
 window.config(padx=20, pady=20)
 
-table = Canvas(width=300, height=300, bg="green")
-table.grid(row=0, column=0, columnspan=2, sticky="EW")
+table = Canvas(width=400, height=200, bg="green")
+table.grid(row=0, column=0, columnspan=3, sticky="EW")
 
-deal_button = Button(text='Deal', command=show_hand,  bg="brown", fg="white")
-deal_button.grid(row=1, column=0, columnspan=2)
+deal_button = Button(text="Deal", command=new_hand, bg="brown", fg="white")
+deal_button.grid(row=1, column=0, sticky="EW")
 
-show_hand()
+min_raise = Button(text="MR", bg="brown", fg="white")
+min_raise.grid(row=1, column=1, sticky="EW")
+
+all_in = Button(text="All-in", bg="brown", fg="white")
+all_in.grid(row=2, column=1, sticky="EW")
+
+limp = Button(text="Call", bg="brown", fg="white")
+limp.grid(row=3, column=1, sticky="EW")
+
+fold = Button(text="Fold", bg="brown", fg="white")
+fold.grid(row=1, column=2, sticky="EW")
+
+new_hand()
 
 window.mainloop()
 
