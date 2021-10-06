@@ -1,5 +1,5 @@
 import random
-import tkinter as tk
+from tkinter import *
 
 suits = ('♡', '♢', '♠', '♣')
 ranks = ("2", "3", "4", "5", "6", "7", "8", "9", "T", "J", "Q", "K", "A")
@@ -11,37 +11,38 @@ class Card:
     def __init__(self, suit, rank):
         self.suit = suit
         self.rank = rank
-        self.size = "4x4cm"
 
     def __str__(self):
         return self.rank + self.suit
 
 
-root = tk.Tk()
+window = Tk()
+window.title("Hand Dealer")
 
-canvas1 = tk.Canvas(root, width=300, height=300)
-canvas1.pack()
+player_info = Canvas(window, width=300, height=300)
+player_info.pack()
 
 
-def show_board(label1=None):
-    canvas1.delete("label1")
+def show_hand():
+    player_info.delete("label1")
     deck = []
     for suit in suits:
         for rank in ranks:
             deck.append(Card(suit, rank))
     random.shuffle(deck)
 
+
     hand = [deck.pop() for n in range(2)]
     positions = ["Btn", "BB", "SB"]
     random.shuffle(positions)
 
-    label1 = tk.Label(root, text=f'{hand[0]} {hand[1]} pos: {positions[0]} ES:{random.randint(1,25)}', fg='green', font=('helvetica', 15, 'bold'))
-    canvas1.create_window(150, 200, window=label1)
+    label1 = Label(window, text=f'{hand[0]} {hand[1]} pos: {positions[0]} ES:{random.randint(1, 25)}', fg='green', font=('helvetica', 15, 'bold'))
+    player_info.create_window(150, 200, window=label1)
 
 
-button1 = tk.Button(text='Deal', command=show_board, bg='brown', fg='white')
-canvas1.create_window(150, 150, window=button1)
+deal_button = Button(text='Deal', command=show_hand, bg='brown', fg='white')
+player_info.create_window(150, 150, window=deal_button)
 
-root.mainloop()
+window.mainloop()
 
 
